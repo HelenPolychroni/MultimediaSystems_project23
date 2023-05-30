@@ -47,7 +47,17 @@ def collect_frames(video):
     capture.release()
     return frameNr
   
-  
+'''Function to predict P Frame'''  
+def predictPFrame(Aframe, BFrame):
+    '''
+    P (x,y) = A (x,y) + (B (x,y) - A (x,y))
+    '''
+    
+    pFrame = Aframe + (BFrame - Aframe)
+    
+    return pFrame
+    
+      
 # A Huffman Tree Node
 class Node:
     def __init__(self, prob, symbol, left = None, right = None):
@@ -194,7 +204,6 @@ rows = len(image)
 cols = len(image[0])
 
 
-# 2. Find the sequence of error images
 sum = 0
 for k in range(num_of_frames - 1):
     
@@ -205,27 +214,35 @@ for k in range(num_of_frames - 1):
     image2 = geek.array(image2)
     
     
-    print("Image1:\n",image1)
-    print("\nImage2:\n",image2)
+    #print("Image1:\n",image1)
+    #print("\nImage2:\n",image2)
     
+    
+    # 3. Find the predict p frame
+    pFrame = predictPFrame(image1, image2)
+    #print("\nPredict PFrame is:\n", pFrame)
+    
+    
+    # 4. Find the error image
     error = np.zeros((rows, cols))  # error matrix
     
-    #print("\nDIAFORA pinaka ",k+1," me pinaka ",k)
-    error = image2 - image1   # Update error matrix with the difference between image2 and image1
-    #print("\nError table:\n",error) 
+    error = pFrame - image1   # type: ignore # Update error matrix with the difference between pframe and image1
+    print("\nError table:\n",error) 
     
-    
+    # 5. Encode the error image using Huffman encoding
     encoding, tree = Huffman_encoding(error.flatten()) #convert 2d array to 1d
     
+    # 6. Find the initial error image using Huffman decoding
     decoding = Huffman_decoding(encoding,tree)
     
-    if (error.all() == decoding.all()): # original error matrix ==  final error matrix
+    if (error.all() == decoding.all()): # original error matrix == final error matrix
         sum+=1
         
-print("End of loop")  
+print("End of loop.")  
 
-print("Sum is: ",sum)      
-if sum == (num_of_frames - 1):
+print("Sum is: ",sum)     
+ 
+if sum == (num_of_frames - 1): # Decoder works fine for all error images
     print("Success!")    
     
 print("Num of frames is: ",num_of_frames)
