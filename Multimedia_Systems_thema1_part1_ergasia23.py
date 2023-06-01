@@ -238,13 +238,15 @@ for k in range(num_of_frames - 1):
     if (error.all() == decoding.all()): # original error matrix == final error matrix
         sum+=1
         
-print("End of loop.")  
+#print("End of loop.")  
 
-print("Sum is: ",sum)     
+#print("Sum is: ",sum)     
  
 if sum == (num_of_frames - 1): # Decoder works fine for all error images
-    print("Success!")    
+    print("Success!")  
+else:
+    print("Failure.")  
     
-print("Num of frames is: ",num_of_frames)
+#print("Num of frames is: ",num_of_frames)
 
 
