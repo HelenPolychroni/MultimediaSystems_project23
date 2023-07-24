@@ -214,13 +214,13 @@ for k in range(num_of_frames - 1):
     image2 = geek.array(image2)
     
     
-    #print("Image1:\n",image1)
-    #print("\nImage2:\n",image2)
+    print("Reference Frame:\n",image1)
+    print("\nTarget Frame:\n",image2)
     
     
     # 3. Find the predict p frame
     pFrame = predictPFrame(image1, image2)
-    #print("\nPredict PFrame is:\n", pFrame)
+    print("\nPredict PFrame is:\n", pFrame)
     
     
     # 4. Find the error image
@@ -239,7 +239,6 @@ for k in range(num_of_frames - 1):
         sum+=1
         
 #print("End of loop.")  
-
 #print("Sum is: ",sum)     
  
 if sum == (num_of_frames - 1): # Decoder works fine for all error images
@@ -248,5 +247,4 @@ else:
     print("Failure.")  
     
 #print("Num of frames is: ",num_of_frames)
-
 
